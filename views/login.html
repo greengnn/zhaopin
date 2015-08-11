@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<meta charset="utf-8">
+<title>GMU Demos</title>
+<link rel="stylesheet" type="text/css" href="../static/css/reset.css" />
+<link rel="stylesheet" type="text/css" href="../static/css/g.css" />
+<link rel="stylesheet" type="text/css" href="../static/css/login.css" />
+<script type="text/javascript" src="../static/js/sea.js"></script>
+</head>
+<body>
+<div id="doc" class="page-login">
+	<div class="logo">
+		<img src="../static/img/logo.png" width="70" />
+	</div>
+	
+	<div class="form">
+		<div class="form-item">
+			<input name="account" placeholder="请输入手机号">
+		</div>
+		<div class="form-item">
+			<input type="password" name="pwd" placeholder="请输入密码">
+		</div>
+		<div class="form-btn">
+			<button type="button" class="btn">登录</button>
+		</div>
+	</div>
+	<div class="toreg">
+		没有帐号？立即<a href="#">注册</a>
+	</div>
+</div>
+<script>
+// seajs 的简单配置
+seajs.config({
+  base: "../statics/"
+})
+
+// 加载入口模块
+seajs.use("../static/js/zepto");
+seajs.use("../static/js/gmu");
+
+// (function (doc, win) {
+//   var docEl = doc.documentElement,
+//     resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+//     recalc = function () {
+//       var clientWidth = docEl.clientWidth;
+//       if (!clientWidth) return;
+//       docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
+//     };
+ 
+//   if (!doc.addEventListener) return;
+//   win.addEventListener(resizeEvt, recalc, false);
+//   doc.addEventListener('DOMContentLoaded', recalc, false);
+// })(document, window);
+</script>
+</body>
+</html>
