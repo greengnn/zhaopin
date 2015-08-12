@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<meta charset="utf-8">
+<title>GMU Demos</title>
+<link rel="stylesheet" type="text/css" href="../static/css/reset.css" />
+<link rel="stylesheet" type="text/css" href="../static/css/g.css" />
+<link rel="stylesheet" type="text/css" href="../static/css/slider.css" />
+</head>
+<body>
+<div id="doc">
+    <div id="slider">
+        <div>
+            <a href="http://www.baidu.com/"><img lazyload="../demo/examples/assets/slider/image1.png"></a>
+            <p>1,让Coron的太阳把自己晒黑—小天</p>
+        </div>
+        <div>
+            <a href="http://www.baidu.com/"><img lazyload="../demo/examples/assets/slider/image2.png"></a>
+            <p>2,让Coron的太阳把自己晒黑—小天</p>
+        </div>
+        <div>
+            <a href="http://www.baidu.com/"><img lazyload="../demo/examples/assets/slider/image3.png"></a>
+            <p>3,让Coron的太阳把自己晒黑—小天</p>
+        </div>
+        <div>
+            <a href="http://www.baidu.com/"><img lazyload="../demo/examples/assets/slider/image4.png"></a>
+            <p>4,让Coron的太阳把自己晒黑—小天</p>
+        </div>
+    </div>
+
+    <div id="slider2">
+        <div>
+            <a href="http://www.baidu.com/"><img lazyload="../demo/examples/assets/slider/image1.png"></a>
+        </div>
+        <div>
+            <a href="http://www.baidu.com/"><img lazyload="../demo/examples/assets/slider/image2.png"></a>
+        </div>
+        <div>
+            <a href="http://www.baidu.com/"><img lazyload="../demo/examples/assets/slider/image3.png"></a>
+        </div>
+        <div>
+            <a href="http://www.baidu.com/"><img lazyload="../demo/examples/assets/slider/image4.png"></a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../static/js/vendor/sea.js"></script>
+<script type="text/javascript" src="../static/js/config.js"></script>
+<script>
+seajs.use('slider', function(slider){
+    slider( document.getElementById('slider'), { imgZoom: true, loop:true } );
+    slider( document.getElementById('slider2'), { imgZoom: true, loop:true } );
+});
+</script>
+</body>
+</html>
