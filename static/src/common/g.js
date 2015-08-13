@@ -1,3 +1,16 @@
+seajs.config({
+  // 别名配置
+  alias: {
+    'zepto': 'lib/zepto',
+    'gmu': 'lib/gmu'
+  },
+  // 调试模式
+  debug: true,
+  // Sea.js 的基础路径
+  base: 'http://127.0.0.1:8080/'
+});
+
+
 var rem = (function (doc, win) {
   var docEl = doc.documentElement,
     resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
