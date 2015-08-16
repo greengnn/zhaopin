@@ -1,30 +1,23 @@
-* {
-    tap-highlight-color: transparent;
-    -webkit-tap-highlight-color: transparent;
-    -ms-tap-highlight-color: transparent;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-}
 /* fonts */
-@font-face {font-family: "iconfont";
-  src: url('../../assets/iconfont/iconfont.eot'); /* IE9*/
-  src: url('../../assets/iconfont/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('../../assets/iconfont/iconfont.woff') format('woff'), /* chrome、firefox */
-  url('../../assets/iconfont/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-  url('../../assets/iconfont/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+@font-face {
+  font-family: 'iconfont';
+  src: url('//at.alicdn.com/t/font_1439738845_6872144.eot'); /* IE9*/
+  src: url('//at.alicdn.com/t/font_1439738845_6872144.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('//at.alicdn.com/t/font_1439738845_6872144.woff') format('woff'), /* chrome、firefox */
+  url('//at.alicdn.com/t/font_1439738845_6872144.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('//at.alicdn.com/t/font_1439738845_6872144.svg#iconfont') format('svg'); /* iOS 4.1- */
 }
 
-.iconfont {
-  font-family:"iconfont" !important;
-  font-size:16px;
-  font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
 
+* {
+  tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent;
+  -ms-tap-highlight-color: transparent;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
 html,body,#doc {
     height: 100%;
 }
@@ -53,6 +46,15 @@ a:hover {
   clear: both;
 }
 
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:1.6rem;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 /* form */
 .form {}
 .form-item {
@@ -75,7 +77,7 @@ a:hover {
     display: inline-block;
     border: 0;
     padding: 0;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     height: 50px;
     line-height:50px;
     text-align: center;
@@ -89,14 +91,250 @@ a:hover {
     color: #fff;
     background: #0a7df3;
 }
-.btn-success {}
+.btn-success {
+  color: #fff;
+  background: #3bd578;
+}
 .btn-info {}
 .btn-warning {}
 .btn-danger {}
 .btn-block {
-    width: 100%;
-    display: block;
+  width: 100%;
+  display: block;
+}
+.btn-link {
+  border:0;
+  padding: 0;
+  color: #0a7df3;
+  background: #fff;
 }
 .btn-lg {}
 .btn-sm {}
 .btn-xs {}
+
+/* toast */
+.toast {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 70px;
+  margin: -35px 0 0 0;
+  text-align: center;
+}
+.toast table {
+  max-width: 70%;
+  margin: auto;
+  color: #fff;
+  background: rgba(0,0,0,0.8);
+}
+.toast td {
+  height: 70px;
+  padding: 0 30px;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: left;
+}
+
+/* topbar */
+.topbar {
+  position: relative;
+  height: 40px;
+  line-height: 40px;
+  color: #fff;
+  background: #0e7bce;
+  text-align: center;
+}
+.topbar .title {
+  font-size: 1.6rem;
+}
+.topbar .back {
+  position: absolute;
+  left: 0;
+  top: 0;
+  min-width: 40px;
+  text-align: center;
+  overflow-y: hidden;
+}
+.topbar .back .logo {
+  margin: 8px 0 0 10px;
+}
+.topbar .back .icon-back {
+  display: inline-block;
+  transform:rotate(180deg);
+  -ms-transform:rotate(180deg);   /* IE 9 */
+  -moz-transform:rotate(180deg);  /* Firefox */
+  -webkit-transform:rotate(180deg); /* Safari 和 Chrome */
+  -o-transform:rotate(180deg);  /* Opera */
+}
+.topbar .tool {
+  position: absolute;
+  right: 10px;
+  top: 0;
+  color: #fff;
+  font-size: 1.4rem;
+}
+.topbar .tool a {
+  color: #fff;
+}
+.topbar .tool .iconfont {
+  font-size: 1.4rem;
+}
+/* jd item */
+.jd-item {
+  background: #fff;
+  margin-bottom: 5px;
+  padding: 18px 15px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+.jd-item .hd {
+  position: relative;
+  padding-right: 40px;
+  padding-bottom: 10px;
+  border-bottom: 1px #e2e2e2 solid;
+}
+.jd-item .hd h2 {
+  font-size: 1.6rem;
+  padding-bottom: 5px;
+}
+.jd-item .hd h2 em {
+  color: #ff6600;
+}
+.jd-item .hd p {
+  color: #848484;
+  font-size: 1.2rem;
+}
+.jd-item .hd .comp-logo {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.jd-item .hd .comp-logo img {
+  width: 40px;
+  height: 40px;
+}
+
+.jd-item .bd {
+  padding: 14px 0;
+  line-height: 1.8;
+}
+.jd-item .ft {
+  color: #666;
+  font-size: 1.2rem;
+}
+.jd-item .ft em {
+  color: #0f7bcf;
+}
+.jd-item .tag {
+  margin-right: 5px;
+  border-radius: 3px;
+  border: 1px #000 solid;
+  padding: 1px 3px;
+}
+.jd-item .tag-1 {
+  color: #41ce52;
+  border-color: #41ce52;
+}
+.jd-item .tag-2 {
+  color: #b361e1;
+  border-color: #b361e1;
+}
+.jd-item .tag-3 {
+  color: #c2c2c2;
+  border-color: #c2c2c2;
+}
+
+/* jd sub */
+.jd-sub {
+  padding: 0 40px;
+  text-align: center;
+}
+.jd-sub h2 {
+  font-size: 1.6rem;
+  padding: 100px 0 40px;
+}
+.jd-sub p {
+  margin-top: 10px;
+  color: #666;
+}
+
+/* jd sub succ */
+.jd-sub-suss {
+  margin-top: 115px;
+  text-align: center;
+}
+.jd-sub-suss .icon-xiaolan {
+  display: inline-block;
+  font-size: 4.7rem;
+  color: #0e7bce;
+  vertical-align: middle;
+}
+.jd-sub-suss .content {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: left;
+}
+.jd-sub-suss .content h2 {
+  color: #333;
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
+.jd-sub-suss .content p {
+  color: #666;
+  font-size: 1.2rem;
+}
+
+/* top card */
+.topcard {
+  position: relative;
+  height: 146px;
+  background: #3f51b5;
+}
+.topcard .back,
+.topcard .home {
+  position: absolute;
+  top: 10px;
+  display: block;
+  width: 24px;
+  height: 24px;
+  line-height: 22px;
+  text-align: center;
+  border-radius: 100%;
+  color: #fff;
+  background: rgba(0,0,0,0.4);
+}
+.topcard .back .iconfont,
+.topcard .home .iconfont {
+  font-size: 1.4rem;
+}
+.topcard .back {
+  left: 16px;
+}
+.topcard .home {
+  right: 16px;
+}
+.topcard .content {
+  padding: 53px 16px 0;
+  color: #fff;
+}
+.topcard .content h1 {
+  font-size: 1.8rem;
+  padding-bottom: 5px;
+}
+.topcard .content p {
+  padding: 4px 0;
+  font-size: 1.2rem;
+}
+.topcard .content p .line {
+  opacity: .6;
+}
+.topcard .content p.small {
+  opacity: 0.6;
+}
+.topcard .compy-logo {
+  position: absolute;
+  right: 16px;
+  top: 59px;
+  width: 60px;
+  border-radius: 60px;
+}

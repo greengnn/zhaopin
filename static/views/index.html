@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<meta charset="utf-8">
+<title>GMU Demos</title>
+<link rel="stylesheet" type="text/css" href="/static/src/common/reset.css" />
+<link rel="stylesheet" type="text/css" href="/static/src/common/g.css" />
+<link rel="stylesheet" type="text/css" href="/static/gallery/slider/slider.css" />
+<link rel="stylesheet" type="text/css" href="/static/src/index/index.css" />
+</head>
+<body>
+<div id="doc">
+  <!-- topbar -->
+  <div class="topbar">
+    <div class="back"><img class="logo" src="/static/assets/images/logo2.png" width="70"></div>
+    <div class="tool"><i class="icon iconfont icon-plus">&#xe602;</i></div>
+  </div>
+  <!-- topbar -->
+  <!-- topbar -->
+  <div class="topbar">
+    <div class="back"><img class="logo" src="/static/assets/images/logo2.png" width="70"></div>
+    <div class="tool"><a href="#">我的收藏</a></div>
+  </div>
+  <!-- topbar -->
+  <!-- slider -->
+  <div id="slider">
+      <div>
+          <a href="http://www.baidu.com/"><img lazyload="/static/assets/images/image1.png"></a>
+      </div>
+      <div>
+          <a href="http://www.baidu.com/"><img lazyload="/static/assets/images/image1.png"></a>
+      </div>
+      <div>
+          <a href="http://www.baidu.com/"><img lazyload="/static/assets/images/image1.png"></a>
+      </div>
+      <div>
+          <a href="http://www.baidu.com/"><img lazyload="/static/assets/images/image1.png"></a>
+      </div>
+  </div>
+  <!-- slider -->
+
+  <div class="search">
+    <div class="btn-search"><i class="icon iconfont icon-search">&#xe60e;</i>搜索职位名称</div>
+  </div>
+  <div class="group-cate">
+    <div class="category">
+      <div class="hd">
+        <h2 class="c1">标题</h2>
+      </div>
+      <div class="bd">
+        <ul>
+          <li class="active"><a href="">后端开发</a></li>
+          <li><a href="">前端开发</a></li>
+          <li><a href="">数据库</a></li>
+          <li><a href="">移动开发</a></li>
+          <li><a href="">运维</a></li>
+          <li><a href="">C/C++</a></li>
+          <li><a href="">Java</a></li>
+          <li><a href="">PHP</a></li>
+          <li><a href="">Python</a></li>
+          <li><a href="">html5</a></li>
+          <li><a href="">测试</a></li>
+        </ul>
+      </div>
+    </div>
+
+
+    <div class="category">
+      <div class="hd">
+        <h2 class="c2">标题</h2>
+      </div>
+      <div class="bd">
+        <ul>
+          <li class="active"><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="hd">
+        <h2 class="c3">标题</h2>
+      </div>
+      <div class="bd">
+        <ul>
+          <li class="active"><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="hd">
+        <h2 class="c4">标题</h2>
+      </div>
+      <div class="bd">
+        <ul>
+          <li class="active"><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="hd">
+        <h2 class="c5">标题</h2>
+      </div>
+      <div class="bd">
+        <ul>
+          <li class="active"><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+          <li><a href="">分类</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="/static/lib/sea.js"></script>
+<script type="text/javascript" src="/static/src/common/g.js"></script>
+<script>
+seajs.use('/static/gallery/slider/slider', function(slider){
+    slider( document.getElementById('slider'), { imgZoom: true, loop:true } );
+});
+</script>
+</body>
+</html>

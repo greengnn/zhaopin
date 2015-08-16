@@ -1,10 +1,29 @@
 body {
-    background: #ececec;
+  background: #ececec;
 }
 .logo {
-    padding: 50px 0;
-    text-align: center;
+  padding: 50px 0;
+  text-align: center;
 }
 .toreg {
-    margin: 50px 5px 0;
+  margin: 50px 5px 0;
+}
+.form-item-phone {
+  display:-moz-box;
+  display:-webkit-box;
+  display:box;
+}
+.form-item-phone .col-1 {
+  display: block;
+  -moz-box-flex:1;
+  -webkit-box-flex:1;
+  box-flex:1;
+}
+.form-item-phone .col-2 {
+  display: block;
+  width: 82px;
+  border-left: 1px #ececec solid;
+}
+.agreement {
+  margin: 10px 5px 0;
 }

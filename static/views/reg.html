@@ -16,20 +16,34 @@
 
   <div class="form">
     <form class="form" name="login">
+      <div class="form-item row form-item-phone">
+        <span class="col-1">
+          <input name="account" placeholder="请输入手机号">
+        </span>
+        <span class="col-2">
+          <button class="btn btn-block btn-link" type="button">发送验证码</button>
+        </span>
+      </div>
       <div class="form-item">
-        <input name="account" placeholder="请输入手机号">
+        <input type="password" name="ccode" placeholder="请输入验证码">
       </div>
       <div class="form-item">
         <input type="password" name="pwd" placeholder="请输入密码">
       </div>
       <div class="form-btn">
-        <button type="button" class="btn btn-primary btn-block">登录</button>
+        <button type="button" class="btn btn-primary btn-block">注册</button>
       </div>
     </form>
   </div>
+  <div class="agreement">点击注册即代表同意<a href="#">《知行用户协议》</a></div>
   <div class="toreg">
     没有帐号？立即<a href="#">注册</a>
   </div>
+</div>
+<div class="toast">
+  <table><tr><td>
+    请输入密码
+  </td></tr></table></div>
 </div>
 <script type="text/javascript" src="/static/lib/sea.js"></script>
 <script type="text/javascript" src="/static/src/common/g.js"></script>

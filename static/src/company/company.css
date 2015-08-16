@@ -1,0 +1,42 @@
+body {
+  background: #ececec;
+}
+.description {
+  margin: 5px 0;
+  padding: 20px 16px;
+  background: #fff;
+}
+.description h2 {
+  font-size: 1.4rem;
+  padding: 0 0 16px;
+}
+.description p {
+  line-height: 1.6;
+  font-size: 1.2rem;
+}
+
+.filter {
+  background: #fff;
+  padding: 16px 16px;
+  border-bottom: 1px #ececec solid;
+}
+.filter li {
+  float: left;
+  margin-right: 5px;
+  height: 27px;
+  line-height: 27px;
+  font-size: 1.4rem;
+  padding: 0 9px;
+  color: #0f7bcf;
+  background: #eee;
+}
+.filter li a {
+  color: #0f7bcf;
+}
+.filter li.active {
+  color: #fff;
+  background: #0f7bcf;
+}
+.filter li.active a {
+  color: #fff;
+}
