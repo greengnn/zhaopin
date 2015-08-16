@@ -183,38 +183,38 @@ seajs.use(['zepto', 'gmu'], function(){
       $filterOrder = $('#filterOrder'),
       $filterOther = $('#filterOther');
 
-  $itemFilter.on('click', function(e){
+  $itemFilter.on('click tap', function(e){
     e.preventDefault();
     $itemFilter.removeClass('active');
     $(this).addClass('active');
     $filterMask.show();
   });
 
-  $filterMask.on('click', function(e){
+  $filterMask.on('click tap', function(e){
     e.preventDefault();
     $itemFilter.removeClass('active');
     $filterMask.hide();
   });
 
-  $itemFilterBar.on('click', function(e){
+  $itemFilterBar.on('click tap', function(e){
     e.preventDefault();
     $itemFilter.removeClass('active');
     $filterMask.hide();
     $filterSide.show();
   });
 
-  $filterSideMask.on('click', function(e){
+  $filterSideMask.on('click tap', function(e){
     e.preventDefault();
     $filterSide.hide();
   });
 
-  $filterOrder.find('li').on('click', function(e){
+  $filterOrder.find('li').on('click tap', function(e){
     e.preventDefault();
     $filterOrder.find('li').removeClass('active');
     $(this).addClass('active');
   });
 
-  $filterOther.find('dt').on('click', function(e){
+  $filterOther.find('dt').on('click tap', function(e){
     e.preventDefault();
     $filterOther.find('dl').removeClass('active');
     $(this.parentNode).addClass('active');
