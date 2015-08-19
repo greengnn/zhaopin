@@ -1,13 +1,13 @@
 seajs.config({
   // 别名配置
   alias: {
-    'zepto': '//cdn.bootcss.com/zepto/1.1.6/zepto.js',
+    'zepto': 'lib/zepto.js',
     'gmu': 'lib/gmu'
   },
   // 调试模式
   debug: true,
   // Sea.js 的基础路径
-  base: 'http://127.0.0.1:8080/'
+  base: '/'
 });
 
 
