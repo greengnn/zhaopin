@@ -74,6 +74,214 @@ var gmu = gmu || {
         };
     })( Zepto )
 };
+
+
+/**
+ * @file 来自zepto/fx.js, zepto自1.0后，已不默认打包此文件。
+ * @import zepto.js
+ */
+//     Zepto.js
+//     (c) 2010-2015 Thomas Fuchs
+//     Zepto.js may be freely distributed under the MIT license.
+
+;(function($, undefined){
+  var prefix = '', eventPrefix,
+    vendors = { Webkit: 'webkit', Moz: '', O: 'o' },
+    testEl = document.createElement('div'),
+    supportedTransforms = /^((translate|rotate|scale)(X|Y|Z|3d)?|matrix(3d)?|perspective|skew(X|Y)?)$/i,
+    transform,
+    transitionProperty, transitionDuration, transitionTiming, transitionDelay,
+    animationName, animationDuration, animationTiming, animationDelay,
+    cssReset = {}
+
+  function dasherize(str) { return str.replace(/([a-z])([A-Z])/, '$1-$2').toLowerCase() }
+  function normalizeEvent(name) { return eventPrefix ? eventPrefix + name : name.toLowerCase() }
+
+  $.each(vendors, function(vendor, event){
+    if (testEl.style[vendor + 'TransitionProperty'] !== undefined) {
+      prefix = '-' + vendor.toLowerCase() + '-'
+      eventPrefix = event
+      return false
+    }
+  })
+
+  transform = prefix + 'transform'
+  cssReset[transitionProperty = prefix + 'transition-property'] =
+  cssReset[transitionDuration = prefix + 'transition-duration'] =
+  cssReset[transitionDelay    = prefix + 'transition-delay'] =
+  cssReset[transitionTiming   = prefix + 'transition-timing-function'] =
+  cssReset[animationName      = prefix + 'animation-name'] =
+  cssReset[animationDuration  = prefix + 'animation-duration'] =
+  cssReset[animationDelay     = prefix + 'animation-delay'] =
+  cssReset[animationTiming    = prefix + 'animation-timing-function'] = ''
+
+  $.fx = {
+    off: (eventPrefix === undefined && testEl.style.transitionProperty === undefined),
+    speeds: { _default: 400, fast: 200, slow: 600 },
+    cssPrefix: prefix,
+    transitionEnd: normalizeEvent('TransitionEnd'),
+    animationEnd: normalizeEvent('AnimationEnd')
+  }
+
+  $.fn.animate = function(properties, duration, ease, callback, delay){
+    if ($.isFunction(duration))
+      callback = duration, ease = undefined, duration = undefined
+    if ($.isFunction(ease))
+      callback = ease, ease = undefined
+    if ($.isPlainObject(duration))
+      ease = duration.easing, callback = duration.complete, delay = duration.delay, duration = duration.duration
+    if (duration) duration = (typeof duration == 'number' ? duration :
+                    ($.fx.speeds[duration] || $.fx.speeds._default)) / 1000
+    if (delay) delay = parseFloat(delay) / 1000
+    return this.anim(properties, duration, ease, callback, delay)
+  }
+
+  $.fn.anim = function(properties, duration, ease, callback, delay){
+    var key, cssValues = {}, cssProperties, transforms = '',
+        that = this, wrappedCallback, endEvent = $.fx.transitionEnd,
+        fired = false
+
+    if (duration === undefined) duration = $.fx.speeds._default / 1000
+    if (delay === undefined) delay = 0
+    if ($.fx.off) duration = 0
+
+    if (typeof properties == 'string') {
+      // keyframe animation
+      cssValues[animationName] = properties
+      cssValues[animationDuration] = duration + 's'
+      cssValues[animationDelay] = delay + 's'
+      cssValues[animationTiming] = (ease || 'linear')
+      endEvent = $.fx.animationEnd
+    } else {
+      cssProperties = []
+      // CSS transitions
+      for (key in properties)
+        if (supportedTransforms.test(key)) transforms += key + '(' + properties[key] + ') '
+        else cssValues[key] = properties[key], cssProperties.push(dasherize(key))
+
+      if (transforms) cssValues[transform] = transforms, cssProperties.push(transform)
+      if (duration > 0 && typeof properties === 'object') {
+        cssValues[transitionProperty] = cssProperties.join(', ')
+        cssValues[transitionDuration] = duration + 's'
+        cssValues[transitionDelay] = delay + 's'
+        cssValues[transitionTiming] = (ease || 'linear')
+      }
+    }
+
+    wrappedCallback = function(event){
+      if (typeof event !== 'undefined') {
+        if (event.target !== event.currentTarget) return // makes sure the event didn't bubble from "below"
+        $(event.target).unbind(endEvent, wrappedCallback)
+      } else
+        $(this).unbind(endEvent, wrappedCallback) // triggered by setTimeout
+
+      fired = true
+      $(this).css(cssReset)
+      callback && callback.call(this)
+    }
+    if (duration > 0){
+      this.bind(endEvent, wrappedCallback)
+      // transitionEnd is not always firing on older Android phones
+      // so make sure it gets fired
+      setTimeout(function(){
+        if (fired) return
+        wrappedCallback.call(that)
+      }, ((duration + delay) * 1000) + 25)
+    }
+
+    // trigger page reflow so new elements can animate
+    this.size() && this.get(0).clientLeft
+
+    this.css(cssValues)
+
+    if (duration <= 0) setTimeout(function() {
+      that.each(function(){ wrappedCallback.call(this) })
+    }, 0)
+
+    return this
+  }
+
+  testEl = null
+})(Zepto);
+
+/**
+ * @file 来自zepto/detect.js, zepto自1.0后，已不默认打包此文件。
+ * @import zepto.js
+ */
+//     Zepto.js
+//     (c) 2010-2015 Thomas Fuchs
+//     Zepto.js may be freely distributed under the MIT license.
+
+;(function($){
+  function detect(ua, platform){
+    var os = this.os = {}, browser = this.browser = {},
+      webkit = ua.match(/Web[kK]it[\/]{0,1}([\d.]+)/),
+      android = ua.match(/(Android);?[\s\/]+([\d.]+)?/),
+      osx = !!ua.match(/\(Macintosh\; Intel /),
+      ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+      ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/),
+      iphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+      webos = ua.match(/(webOS|hpwOS)[\s\/]([\d.]+)/),
+      win = /Win\d{2}|Windows/.test(platform),
+      wp = ua.match(/Windows Phone ([\d.]+)/),
+      touchpad = webos && ua.match(/TouchPad/),
+      kindle = ua.match(/Kindle\/([\d.]+)/),
+      silk = ua.match(/Silk\/([\d._]+)/),
+      blackberry = ua.match(/(BlackBerry).*Version\/([\d.]+)/),
+      bb10 = ua.match(/(BB10).*Version\/([\d.]+)/),
+      rimtabletos = ua.match(/(RIM\sTablet\sOS)\s([\d.]+)/),
+      playbook = ua.match(/PlayBook/),
+      chrome = ua.match(/Chrome\/([\d.]+)/) || ua.match(/CriOS\/([\d.]+)/),
+      firefox = ua.match(/Firefox\/([\d.]+)/),
+      firefoxos = ua.match(/\((?:Mobile|Tablet); rv:([\d.]+)\).*Firefox\/[\d.]+/),
+      ie = ua.match(/MSIE\s([\d.]+)/) || ua.match(/Trident\/[\d](?=[^\?]+).*rv:([0-9.].)/),
+      webview = !chrome && ua.match(/(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/),
+      safari = webview || ua.match(/Version\/([\d.]+)([^S](Safari)|[^M]*(Mobile)[^S]*(Safari))/)
+
+    // Todo: clean this up with a better OS/browser seperation:
+    // - discern (more) between multiple browsers on android
+    // - decide if kindle fire in silk mode is android or not
+    // - Firefox on Android doesn't specify the Android version
+    // - possibly devide in os, device and browser hashes
+
+    if (browser.webkit = !!webkit) browser.version = webkit[1]
+
+    if (android) os.android = true, os.version = android[2]
+    if (iphone && !ipod) os.ios = os.iphone = true, os.version = iphone[2].replace(/_/g, '.')
+    if (ipad) os.ios = os.ipad = true, os.version = ipad[2].replace(/_/g, '.')
+    if (ipod) os.ios = os.ipod = true, os.version = ipod[3] ? ipod[3].replace(/_/g, '.') : null
+    if (wp) os.wp = true, os.version = wp[1]
+    if (webos) os.webos = true, os.version = webos[2]
+    if (touchpad) os.touchpad = true
+    if (blackberry) os.blackberry = true, os.version = blackberry[2]
+    if (bb10) os.bb10 = true, os.version = bb10[2]
+    if (rimtabletos) os.rimtabletos = true, os.version = rimtabletos[2]
+    if (playbook) browser.playbook = true
+    if (kindle) os.kindle = true, os.version = kindle[1]
+    if (silk) browser.silk = true, browser.version = silk[1]
+    if (!silk && os.android && ua.match(/Kindle Fire/)) browser.silk = true
+    if (chrome) browser.chrome = true, browser.version = chrome[1]
+    if (firefox) browser.firefox = true, browser.version = firefox[1]
+    if (firefoxos) os.firefoxos = true, os.version = firefoxos[1]
+    if (ie) browser.ie = true, browser.version = ie[1]
+    if (safari && (osx || os.ios || win)) {
+      browser.safari = true
+      if (!os.ios) browser.version = safari[1]
+    }
+    if (webview) browser.webview = true
+
+    os.tablet = !!(ipad || playbook || (android && !ua.match(/Mobile/)) ||
+      (firefox && ua.match(/Tablet/)) || (ie && !ua.match(/Phone/) && ua.match(/Touch/)))
+    os.phone  = !!(!os.tablet && !os.ipod && (android || iphone || webos || blackberry || bb10 ||
+      (chrome && ua.match(/Android/)) || (chrome && ua.match(/CriOS\/([\d.]+)/)) ||
+      (firefox && ua.match(/Mobile/)) || (ie && ua.match(/Touch/))))
+  }
+
+  detect.call($, navigator.userAgent, navigator.platform)
+  // make available to unit tests
+  $.__detect = detect
+
+})(Zepto);
 /**
  * @file Event相关, 给widget提供事件行为。也可以给其他对象提供事件行为。
  * @import core/gmu.js
@@ -371,10 +579,10 @@ var gmu = gmu || {
  * @module GMU
  */
 (function( $, undefined ) {
-    
+
     /**
      * 解析模版tpl。当data未传入时返回编译结果函数；当某个template需要多次解析时，建议保存编译结果函数，然后调用此函数来得到结果。
-     * 
+     *
      * @method $.parseTpl
      * @grammar $.parseTpl(str, data)  ⇒ string
      * @grammar $.parseTpl(str)  ⇒ Function
@@ -402,7 +610,7 @@ var gmu = gmu || {
 
             /* jsbint evil:true */
             func = new Function( 'obj', tmpl );
-        
+
         return data ? func( data ) : func;
     };
 })( Zepto );
@@ -1004,7 +1212,7 @@ var gmu = gmu || {
      * ||||||||||||||||||||||||| (空闲) |||||||||||||||||||||||||
      * X    X    X    X    X    X      X    X    X    X    X    X
      * ```
-     * 
+     *
      * @method $.throttle
      * @grammar $.throttle(delay, fn) ⇒ function
      * @param {Number} [delay=250] 延时时间
@@ -1456,13 +1664,13 @@ $(function () {
 
             return me;
         }
-        
+
         /**
          * @event ready
          * @param {Event} e gmu.Event对象
          * @description 当组件初始化完后触发。
          */
-        
+
         /**
          * @event destroy
          * @param {Event} e gmu.Event对象
@@ -1497,7 +1705,7 @@ $(function () {
      * @name highlight
      * @desc 禁用掉系统的高亮，当手指移动到元素上时添加指定class，手指移开时，移除该class.
      * 当不传入className是，此操作将解除事件绑定。
-     * 
+     *
      * 此方法支持传入selector, 此方式将用到事件代理，允许dom后加载。
      * @grammar  highlight(className, selector )   ⇒ self
      * @grammar  highlight(className )   ⇒ self
@@ -1934,6 +2142,7 @@ $(function () {
     $.fn[m] = function(callback){ return this.bind(m, callback) }
   })
 })(Zepto);
+
 
 /**
  * @file 日历组件
@@ -2448,7 +2657,7 @@ $(function () {
      * @param {Instance} instance 当前日历的实例
      * @description 选中日期的时候触发
      */
-    
+
     /**
      * @event monthchange
      * @param {Event} e gmu.Event对象
@@ -2457,7 +2666,7 @@ $(function () {
      * @param {Instance} instance 当前日历的实例
      * @description 前现实月份发生变化时触发
      */
-    
+
     /**
      * @event destroy
      * @param {Event} e gmu.Event对象
@@ -3630,15 +3839,15 @@ $(function () {
      * ```javascript
      * $('#btn1').dropmenu({
      *  content: [
-     *      
+     *
      *      'Action',
-     *  
+     *
      *      'Another Action',
-     *  
+     *
      *      'Someone else here',
-     *  
+     *
      *      'divider',
-     *  
+     *
      *      {
      *          text: 'Open Baidu',
      *          icon: 'grid',
@@ -3693,9 +3902,9 @@ $(function () {
 
             // 根据opts.content创建ul>li
             if ( $.type( opts.content ) === 'array' ) {
-                
+
                 opts.content.forEach(function( item ) {
-                    
+
                     item = $.extend( {
                         href: '',
                         icon: '',
@@ -3720,7 +3929,7 @@ $(function () {
                 if ( evt.isDefaultPrevented() ) {
                     return;
                 }
-                
+
                 me.hide();
             } );
         }
@@ -3737,7 +3946,7 @@ $(function () {
          * @param {Element} item 当前点击的条目
          * @description 某个条目被点击时触发
          */
-        
+
         /**
          * @event destroy
          * @param {Event} e gmu.Event对象
@@ -3884,7 +4093,7 @@ $(function () {
 
             // 提供机会在设置之前修改位置
             me.trigger( 'before.placement', coord, info, presets );
-            
+
             if ( /^(\w+)_(\w+)$/.test( info.preset ) ) {
                 info.placement = RegExp.$1;
                 info.align = RegExp.$2;
@@ -4039,7 +4248,7 @@ $(function () {
             var me = this;
 
             (position !== undefined ? position : window.pageYOffset) > document.documentElement.clientHeight ? me.show() : me.hide();
-            
+
             return  me;
         },
 
@@ -4088,7 +4297,7 @@ $(function () {
          */
         hide: function() {
             this._options.root.style.display = 'none';
-            
+
             return this;
         }
 
@@ -4103,7 +4312,7 @@ $(function () {
          * @param {Event} e gmu.Event对象
          * @description 返回顶部后触发的事件
          */
-        
+
         /**
          * @event destroy
          * @param {Event} e gmu.Event对象
@@ -4120,7 +4329,7 @@ $(function () {
 
  // TODO 列表区域支持iScroll
 (function( gmu, $ ) {
-    
+
     /**
      * 历史记录组件
      *
@@ -4167,7 +4376,7 @@ $(function () {
         options: {
 
             /**
-             * @property {Zepto | Selector | Element} [container=document.body] 容器，默认为 document.body 
+             * @property {Zepto | Selector | Element} [container=document.body] 容器，默认为 document.body
              * @namespace options
              */
             container: document.body,
@@ -4290,7 +4499,7 @@ $(function () {
 
                 $target = $( ev.target );
 
-                if( !$target.hasClass( 'ui-historylist-itemwrap' ) && 
+                if( !$target.hasClass( 'ui-historylist-itemwrap' ) &&
                     !($target = $target.parents( '.ui-historylist-itemwrap' )).length ) {
                     $target = null;
                     return;
@@ -4316,7 +4525,7 @@ $(function () {
                 moved = false;
                 wantDelete = false;
 
-                if( !$target.hasClass( 'ui-historylist-itemwrap' ) && 
+                if( !$target.hasClass( 'ui-historylist-itemwrap' ) &&
                     !($target = $target.parents( '.ui-historylist-itemwrap' )).length ) {
                     $target = null;
                     return;
@@ -4344,7 +4553,7 @@ $(function () {
                     }
 
                 }, 10 ));
-                
+
                 moved = moved || ((currentX - touchstartX >= 3 || currentY - touchstartY >= 3) ? true : false);
                 if( !wantDelete ) {
                     setTimeout( function() {
@@ -4360,7 +4569,7 @@ $(function () {
                 $target.removeClass( 'ui-historylist-ontap' );
                 $target.css( '-webkit-transform', 'translate3d(' + (currentX - touchstartX) + 'px, 0, 0)' );
                 $target.css( 'opacity', 1 - movedPercentage );
-                
+
                 ev.preventDefault();
                 ev.stopPropagation();
             } );
@@ -4485,10 +4694,10 @@ $(function () {
                 }
             } );
 
-            me.$wrap.children().length === 0 ? 
-                me.$wrap.append( me.tpl2html( 'item', item ) ) : 
+            me.$wrap.children().length === 0 ?
+                me.$wrap.append( me.tpl2html( 'item', item ) ) :
                 $( me.tpl2html( 'item', item ) ).insertBefore( me.$wrap.children()[0] );
-            
+
             me.items.unshift( item );
 
             return me;
@@ -4659,19 +4868,19 @@ $(function () {
  * @module GMU
  */
 (function( gmu, $, undefined ) {
-    
+
     /**
      * 导航栏组件
      *
      * @class Navigator
      * @constructor Html部分
      * ```html
-     * 
+     *
      * ```
      *
      * javascript部分
      * ```javascript
-     * 
+     *
      * ```
      * @param {dom | zepto | selector} [el] 用来初始化导航栏的元素
      * @param {Object} [options] 组件配置项。具体参数请查看[Options](#GMU:Navigator:options)
@@ -4731,7 +4940,7 @@ $(function () {
 
                 $list.append( html ).appendTo( $el );
             } else {
-                
+
                 // 处理直接通过ul初始化的情况
                 if ( $el.is( 'ul, ol' ) ) {
                     $list = $el.wrap( '<div>' );
@@ -4742,7 +4951,7 @@ $(function () {
 
                     // 如果opts中没有指定index, 则尝试从dom中查看是否有比较为ui-state-active的
                     opts.index = $list.find( '.ui-state-active' ).index();
-                    
+
                     // 没找到还是赋值为0
                     ~opts.index || (opts.index = 0);
                 }
@@ -4771,9 +4980,9 @@ $(function () {
                 list = me.$list.children(),
                 evt = gmu.Event( 'beforeselect', e ),
                 cur;
-                
+
             me.trigger( evt, list.get( to ) );
-            
+
             if ( evt.isDefaultPrevented() ) {
                 return;
             }
@@ -4824,7 +5033,7 @@ $(function () {
          * @param {Element} 目标元素
          * @description 当选择的序号发生切换前触发
          */
-        
+
         /**
          * @event select
          * @param {Event} e gmu.Event对象
@@ -4832,7 +5041,7 @@ $(function () {
          * @param {Element} 上一次选择的元素
          * @description 当选择的序号发生切换后触发
          */
-        
+
         /**
          * @event destroy
          * @param {Event} e gmu.Event对象
@@ -5576,7 +5785,7 @@ $(function () {
         var _iScroll = ns.iScroll,
 
             slice = [].slice,
-            
+
             record = (function() {
                 var data = {},
                     id = 0,
@@ -5857,13 +6066,13 @@ $(function () {
         me.on( 'init.iScroll refresh.iScroll', arrage );
 
         function arrage( e ) {
-            
+
             // todo 采用一种更精准的方法来获取横竖屏
             var ort = window.innerWidth > window.innerHeight ?
                     'landscape' : 'portrait',
                 count = counts[ ort ],
                 $el = me.$el;
-            
+
             //TODO 横竖屏切换时，不能自动调整宽度
             me.$list.children().width( $el.width() / count );
             me.$list.width($el.width() / count * me.$list.children().length);
@@ -5888,7 +6097,7 @@ $(function () {
             prevIndex;
 
         me.on( 'select', function( e, to, el ) {
-            
+
             // 第一调用的时候没有prevIndex, 固根据this.index来控制方向。
             if ( prevIndex === undefined ) {
                 prevIndex = me.index ? 0 : 1;
@@ -5949,7 +6158,7 @@ $(function () {
      * @grammar $( el ).panel( options ) => zepto
      * @grammar new gmu.Panel( el, options ) => instance
      */
-    
+
     gmu.define( 'Panel', {
         options: {
 
@@ -6017,7 +6226,7 @@ $(function () {
                 throw new Error('panel组件不支持create模式，请使用setup模式');
             }
         },
-        
+
         /**
          * 生成display模式函数
          * */
@@ -6157,7 +6366,7 @@ $(function () {
                     break;
             }
         },
-        
+
         /**
          * 打开panel
          * @method open
@@ -6169,7 +6378,7 @@ $(function () {
         open: function (display, position) {
             return this._setShow(true, display, position);
         },
-        
+
         /**
          * 关闭panel
          * @method close
@@ -6179,7 +6388,7 @@ $(function () {
         close: function () {
             return this._setShow(false);
         },
-        
+
         /**
          * 切换panel的打开或关闭状态
          * @method toggle
@@ -6191,7 +6400,7 @@ $(function () {
         toggle: function (display, position) {
             return this[this.isOpen ? 'close' : 'open'](display, position);
         },
-        
+
         /**
          * 获取当前panel状态，打开为true,关闭为false
          * @method state
@@ -6201,7 +6410,7 @@ $(function () {
         state: function () {
             return !!this.isOpen;
         },
-        
+
         /**
          * 销毁组件
          * @method destroy
@@ -6214,37 +6423,37 @@ $(function () {
             $(window).off('ortchange', this._eventHandler);
             return this.$super('destroy');
         }
-        
+
         /**
          * @event ready
          * @param {Event} e gmu.Event对象
          * @description 当组件初始化完后触发。
          */
-        
+
         /**
          * @event beforeopen
          * @param {Event} e gmu.Event对象
          * @description panel打开前触发，可以通过e.preventDefault()来阻止
          */
-        
+
         /**
          * @event open
          * @param {Event} e gmu.Event对象
          * @description panel打开后触发
          */
-        
+
         /**
          * @event beforeclose
          * @param {Event} e gmu.Event对象
          * @description panel关闭前触发，可以通过e.preventDefault()来阻止
          */
-        
+
         /**
          * @event close
          * @param {Event} e gmu.Event对象
          * @description panel关闭后触发
          */
-        
+
         /**
          * @event destroy
          * @param {Event} e gmu.Event对象
@@ -6561,7 +6770,7 @@ $(function () {
  * @module GMU
  */
 (function( gmu, $, undefined ) {
-    
+
     /**
      * 进度条组件
      *
@@ -6828,31 +7037,31 @@ $(function () {
          * @param {Event} e gmu.Event对象
          * @description 当组件初始化完后触发。
          */
-        
+
         /**
          * @event dragStart
          * @param {Event} e gmu.Event对象
          * @description 拖动进度条开始时触发的事件
          */
-        
+
         /**
          * @event dragMove
          * @param {Event} e gmu.Event对象
          * @description 拖动进度条过程中触发的事件
          */
-        
+
         /**
          * @event dragEnd
          * @param {Event} e gmu.Event对象
          * @description 拖动进度条结束时触发的事件
          */
-        
+
         /**
          * @event valueChange
          * @param {Event} e gmu.Event对象
          * @description progressbar的值有变化时触发（拖动progressbar时，值不一定会变化）
          */
-        
+
         /**
          * @event destroy
          * @param {Event} e gmu.Event对象
@@ -6869,7 +7078,7 @@ $(function () {
  */
 
 (function( gmu, $, undefined ) {
-    
+
     /**
      * 加载更多组件
      *
@@ -7095,7 +7304,7 @@ $(function () {
          * @param {Event} e gmu.Event对象
          * @description 当组件初始化完后触发。
          */
-        
+
         /**
          * @event statechange
          * @param {Event} e gmu.Event对象
@@ -7104,7 +7313,7 @@ $(function () {
          * @param {String} dir 加载的方向（'up' | 'down'）
          * @description 组件发生状态变化时会触发
          */
-        
+
         /**
          * @event destroy
          * @param {Event} e gmu.Event对象
@@ -7125,7 +7334,7 @@ $(function () {
 
         // todo 检测3d是否支持。
         translateZ = ' translateZ(0)';
-    
+
     /**
      * 图片轮播组件
      *
@@ -7170,7 +7379,7 @@ $(function () {
              * @namespace options
              */
             loop: false,
-            
+
             /**
              * @property {Number} [speed=400] 动画执行速度
              * @namespace options
@@ -7308,7 +7517,7 @@ $(function () {
 
             for ( len = items.length; i < len; i++ ) {
                 item = items[ i ];
-                
+
                 item.style.cssText += 'width:' + width + 'px;' +
                         'left:' + (i * -width) + 'px;';
                 item.setAttribute( 'data-index', i );
@@ -7342,8 +7551,8 @@ $(function () {
                 return false;
             }
 
-            style.cssText += cssPrefix + 'transition-duration:' + speed + 
-                    'ms;' + cssPrefix + 'transform: translate(' + 
+            style.cssText += cssPrefix + 'transition-duration:' + speed +
+                    'ms;' + cssPrefix + 'transform: translate(' +
                     dist + 'px, 0)' + translateZ + ';';
         },
 
@@ -7362,7 +7571,7 @@ $(function () {
             if ( ~~e.target.getAttribute( 'data-index' ) !== this.index ) {
                 return;
             }
-            
+
             this.trigger( 'slideend', this.index );
         },
 
@@ -7376,7 +7585,7 @@ $(function () {
             if ( !opts.loop ) {
                 dir = Math.abs( from - to ) / (from - to);
             }
-            
+
             // 调整初始位置，如果已经在位置上不会重复处理
             this._move( to, -dir * width, 0, true );
 
@@ -7403,7 +7612,7 @@ $(function () {
             var opts = this._options,
                 index = this.index,
                 diff = Math.abs( index - to ),
-                
+
                 // 1向左，-1向右
                 dir = diff / (index - to),
                 width = this.width;
@@ -7420,7 +7629,7 @@ $(function () {
          * @return {self} 返回本身
          */
         prev: function() {
-            
+
             if ( this._options.loop || this.index > 0 ) {
                 this.slideTo( this.index - 1 );
             }
@@ -7435,7 +7644,7 @@ $(function () {
          * @return {self} 返回本身
          */
         next: function() {
-            
+
             if ( this._options.loop || this.index + 1 < this.length ) {
                 this.slideTo( this.index + 1 );
             }
@@ -7476,20 +7685,20 @@ $(function () {
          * @param {Object} opts 组件初始化时的配置项
          * @description DOM创建完成后触发
          */
-        
+
         /**
          * @event width.change
          * @param {Event} e gmu.Event对象
          * @description slider容器宽度发生变化时触发
          */
-        
+
         /**
          * @event slideend
          * @param {Event} e gmu.Event对象
          * @param {Number} index 当前slide的序号
          * @description slide切换完成后触发
          */
-        
+
         /**
          * @event slide
          * @param {Event} e gmu.Event对象
@@ -7497,7 +7706,7 @@ $(function () {
          * @param {Number} from 当前slide的序号
          * @description slide切换时触发（如果切换时有动画，此事件触发时，slide不一定已经完成切换）
          */
-        
+
         /**
          * @event destroy
          * @param {Event} e gmu.Event对象
@@ -7657,7 +7866,7 @@ $(function () {
  * @import widget/slider/slider.js
  */
 (function( gmu, $, undefined ) {
-    
+
     var map = {
             touchstart: '_onStart',
             touchmove: '_onMove',
@@ -7711,7 +7920,7 @@ $(function () {
 
                 // 绑定手势
                 $el.on( 'touchstart' + me.eventNs, me._handler );
-                
+
                 // 阻止误点击, 犹豫touchmove被preventDefault了，导致长按也会触发click
                 me._container.on( 'click' + me.eventNs, me._handler );
             } );
@@ -7722,7 +7931,7 @@ $(function () {
         },
 
         _onStart: function( e ) {
-                
+
             // 不处理多指
             if ( e.touches.length > 1 ) {
                 return false;
@@ -7790,7 +7999,7 @@ $(function () {
                     delta.x /= (!index && delta.x > 0 ||
 
                             // 如果右边到头
-                            index === this._items.length - 1 && 
+                            index === this._items.length - 1 &&
                             delta.x < 0) ?
 
                             // 则来一定的减速
@@ -7850,11 +8059,11 @@ $(function () {
             } else {
                 diff = Math.round( absDeltaX / (me.perWidth || me.width) );
             }
-            
+
             if ( diff && !isPastBounds ) {
                 me._slide( index, diff, dir, me.width, opts.speed,
                         opts, true );
-                
+
                 // 在以下情况，需要多移动一张
                 if ( viewNum > 1 && duration >= 250 &&
                         Math.ceil( absDeltaX / me.perWidth ) !== diff ) {
@@ -7864,13 +8073,13 @@ $(function () {
                             me.width, opts.speed );
                 }
             } else {
-                
+
                 // 滑回去
                 for ( i = index - viewNum, len = index + 2 * viewNum;
                     i < len; i++ ) {
 
                     pos = opts.loop ? me._circle( i ) : i;
-                    me._translate( pos, slidePos[ pos ], 
+                    me._translate( pos, slidePos[ pos ],
                             opts.speed );
                 }
             }
@@ -7986,13 +8195,13 @@ $(function () {
      * @pluginfor Slider
      */
     gmu.Slider.option( 'dots', true, function() {
-        
+
         var updateDots = function( to, from ) {
             var dots = this._dots;
 
             typeof from === 'undefined' || gmu.staticCall( dots[
                 from % this.length ], 'removeClass', 'ui-state-active' );
-            
+
             gmu.staticCall( dots[ to % this.length ], 'addClass',
                     'ui-state-active' );
         };
@@ -8004,7 +8213,7 @@ $(function () {
                 dots = this.tpl2html( 'dots', {
                     len: this.length
                 } );
-                
+
                 dots = $( dots ).appendTo( $el );
             }
 
@@ -8065,7 +8274,7 @@ $(function () {
                 // 只缩放，不拉伸
                 scale = Math.min( 1, me.width / img.naturalWidth,
                     me.height / img.naturalHeight );
-            
+
             img.style.width = scale * img.naturalWidth + 'px';
         }
 
@@ -8107,7 +8316,7 @@ $(function () {
      * @grammar $( el ).suggestion( options ) => zepto
      * @grammar new gmu.Suggestion( el, options ) => instance
      */
-    
+
     var guid = 0;
 
     gmu.define( 'Suggestion', {
@@ -8119,22 +8328,22 @@ $(function () {
              * @property {Element | Zepto | Selector} container 父元素，若为render模式，则为必选
              * @namespace options
              */
-            
+
             /**
              * @property {String} source 请求数据的url，若不自定义sendRequest，则为必选
              * @namespace options
              */
-            
+
             /**
              * @property {String} [param=''] url附加参数
              * @namespace options
              */
-            
+
             /**
              * @property {String | Element} [form] 提交搜索的表单，默认为包含input框的第一个父级form
              * @namespace options
              */
-            
+
             /**
              * @property {Boolean | String} [historyShare=true] 多个sug之间是否共享历史记录，可传入指定的key值。若传默认传true，则使用默认key：'SUG-Sharing-History'，若传false，即表示不共享history；若传string，则为该值+'-SUG-Sharing-History'作为key值
              * @namespace options
@@ -8439,20 +8648,20 @@ $(function () {
          * @param {Zepto} $el slider元素
          * @description DOM创建完成后触发
          */
-        
+
         /**
          * @event show
          * @param {Event} e gmu.Event对象
          * @description 显示sug时触发
          */
-        
+
         /**
          * @event hide
          * @param {Event} e gmu.Event对象
          * @param {Number} index 当前slide的序号
          * @description 隐藏sug时触发
          */
-        
+
         /**
          * @event sendrequest
          * @param {Event} e gmu.Event对象
@@ -8461,7 +8670,7 @@ $(function () {
          * @param {Function} cacheData 缓存query的回调函数，其参数为query, data
          * @description 发送请求时触发
          */
-        
+
         /**
          * @event renderlist
          * @param {Event} e gmu.Event对象
@@ -8470,7 +8679,7 @@ $(function () {
          * @param {Function} fillWrapper 列表渲染完成后的回调函数，参数为listHtml片段
          * @description 渲染sug list时触发
          */
-        
+
         /**
          * @event destroy
          * @param {Event} e gmu.Event对象
@@ -8897,7 +9106,7 @@ $(function () {
          * @for Suggestion
          * @uses Suggestion.sendrequest
          */
-        
+
         queryKey: 'wd',
 
         /**
@@ -9393,7 +9602,7 @@ $(function () {
                 }
             }));
         }
-        
+
         /**
          * @event beforeLoad
          * @param {Event} e gmu.Event对象
@@ -9403,7 +9612,7 @@ $(function () {
          * @for Tabs
          * @uses Tabs.ajax
          */
-        
+
         /**
          * @event beforeRender
          * @param {Event} e gmu.Event对象
@@ -9415,7 +9624,7 @@ $(function () {
          * @for Tabs
          * @uses Tabs.ajax
          */
-        
+
         /**
          * @event load
          * @param {Event} e gmu.Event对象
@@ -9424,7 +9633,7 @@ $(function () {
          * @for Tabs
          * @uses Tabs.ajax
          */
-        
+
         /**
          * @event loadError
          * @param {Event} e gmu.Event对象
@@ -9493,7 +9702,7 @@ $(function () {
                 });
         });
     }
-    
+
     /**
      * 添加 swipe功能，zepto的swipeLeft, swipeRight不太准，所以在这另外实现了一套。
      * @class swipe
@@ -9632,7 +9841,7 @@ $(function () {
                     me.on( 'destroy', function() {
                         $(window).off('touchmove touchend touchcancel scroll scrollStop', check);
                         $(document).off('touchend touchcancel', offHandle);
-                        
+
                         // 删除placeholder，保留原来的Toolbar节点
                         $el.insertBefore(placeholder);
                         placeholder.remove();
@@ -9679,7 +9888,7 @@ $(function () {
             children.forEach( function( child ) {
                 $toolbarWrap.append(child);
 
-                /^[hH]/.test( child.tagName ) ? 
+                /^[hH]/.test( child.tagName ) ?
                     (currentGroup = btnGroups['right'], me.title = child) :
                     currentGroup.push( child );
             } );
@@ -9693,7 +9902,7 @@ $(function () {
                     $(btn).addClass('ui-toolbar-button');
                     leftBtnContainer.append( btn );
                 } );
-                
+
                 // 没有左侧容器，则认为也没有右侧容器，不需要再判断是否存在右侧容器
                 rightBtnContainer = $('<div class="ui-toolbar-right">').appendTo($toolbarWrap);
                 btnGroups['right'].forEach( function( btn ) {
@@ -9754,7 +9963,7 @@ $(function () {
          * @method show
          * @return {self} 返回本身。
          */
-        
+
         /**
          * @event show
          * @param {Event} e gmu.Event对象
@@ -9775,7 +9984,7 @@ $(function () {
          * @method hide
          * @return {self} 返回本身。
          */
-        
+
         /**
          * @event hide
          * @param {Event} e gmu.Event对象
@@ -9799,7 +10008,7 @@ $(function () {
         toggle: function() {
             var me = this;
 
-            me.isShowing === false ? 
+            me.isShowing === false ?
                 me.show() : me.hide();
 
             return me;
@@ -9822,7 +10031,7 @@ $(function () {
          * @param {Event} e gmu.Event对象
          * @description 当组件初始化完后触发。
          */
-        
+
         /**
          * @event destroy
          * @param {Event} e gmu.Event对象
@@ -9865,7 +10074,7 @@ $(function () {
  * @import widget/refresh/refresh.js,extend/throttle.js
  */
 (function( gmu, $, undefined ) {
-    
+
     /**
      * iOS5插件，支持iOS5和以上设备，使用系统自带的内滚功能
      * @class iOS5

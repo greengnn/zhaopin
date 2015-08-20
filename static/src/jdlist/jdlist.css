@@ -103,8 +103,15 @@ body {
 .filter-side li.active .icon-slt-off {
   display: none;
 }
+.filter-side .icon-slt-on,
+.filter-side .icon-slt-off {
+  margin-right: 5px;
+}
 .filter-side .icon-slt-on {
   color: #0f7ccf;
+}
+.filter-side .icon-slt-off {
+  color: #999;
 }
 .filter-side .hd {
   height: 36px;
@@ -115,7 +122,10 @@ body {
   border-bottom: 1px #e2e2e2 solid;
 }
 .filter-side .hd a {
+  display: inline-block;
   margin-left: 10px;
+  height: 36px;
+  line-height: 36px;
 }
 .filter-side .hd .lnk-normal {
   color:#666;
