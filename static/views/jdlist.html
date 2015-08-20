@@ -107,8 +107,8 @@
     <div class="filter-side-mask" id="filterSideMask"></div>
     <div class="filter-side-con">
       <div class="hd">
-        <a class="lnk-normal" href="#">重置</a>
-        <a href="#">确定</a>
+        <a class="lnk-normal opt-reset" href="#">重置</a>
+        <a href="#" class="opt-ok">确定</a>
       </div>
       <dl class="active">
         <dt>
@@ -127,10 +127,10 @@
         <dl class="active">
           <dt>
             <h3>月薪范围</h3>
-            <span class="val">全部<i class="icon iconfont icon-dropdown">&#xe60b;</i></span>
+            <span class="val"><em class="v">全部</em><i class="icon iconfont icon-dropdown">&#xe60b;</i></span>
           </dt>
           <dd class="gray">
-            <ul>
+            <ul class="filteritem">
               <li class="active">全部</li>
               <li>30k+</li>
               <li>15-30k</li>
@@ -143,10 +143,10 @@
         <dl>
           <dt>
             <h3>行业领域</h3>
-            <span class="val">全部<i class="icon iconfont icon-dropdown">&#xe60b;</i></span>
+            <span class="val"><em class="v">全部</em><i class="icon iconfont icon-dropdown">&#xe60b;</i></span>
           </dt>
           <dd class="gray">
-            <ul>
+            <ul class="filteritem">
               <li>全部</li>
               <li>30k+</li>
               <li>15-30k</li>
@@ -156,10 +156,10 @@
         <dl>
           <dt>
             <h3>笔试状态</h3>
-            <span class="val">全部<i class="icon iconfont icon-dropdown">&#xe60b;</i></span>
+            <span class="val"><em class="v">全部</em><i class="icon iconfont icon-dropdown">&#xe60b;</i></span>
           </dt>
           <dd class="gray">
-            <ul>
+            <ul class="filteritem">
               <li>全部</li>
               <li>30k+</li>
               <li>15-30k</li>
@@ -218,6 +218,24 @@ seajs.use(['zepto', 'gmu'], function(){
     e.preventDefault();
     $filterOther.find('dl').removeClass('active');
     $(this.parentNode).addClass('active');
+  });
+
+  $('.filteritem li').on('click tap', function(e){
+    e.preventDefault();
+    $(this.parentNode).find('li').removeClass('active');
+    $(this).addClass('active');
+    var val  = $(this).text();
+    $(this.parentNode.parentNode.parentNode).find('.v').text(val);
+  });
+
+  $filterSide.find('.opt-ok').on('click tap', function(e){
+    e.preventDefault();
+    $filterSide.hide();
+  });
+
+  $filterSide.find('.opt-reset').on('click tap', function(e){
+    e.preventDefault();
+    location.reload();
   });
 });
 </script>

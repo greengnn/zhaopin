@@ -25,9 +25,10 @@
     </div>
   </div>
 
-  <div class="description">
+  <div class="description" id="description">
     <h2>公司简介</h2>
-    <p>2010年3月4日，美团网（www.meituan.com）正式上线，是国内第一家团购网站，最大的电影O2O平台、最大的酒店团购分销平台、第二大酒店在线分销平台、成长最快的外卖多更好更便宜的吃喝玩乐我们的使命是连接人...<a href="#">展开</a></p>
+    <p class="less">2010年3月4日，美团网（www.meituan.com）正式上线，是国内第一家团购网站，最大的电影O2O平台、最大的酒店团购分销平台、第二大酒店在线分销平台、成长最快的外卖多更好更便宜的吃喝玩乐我们的使命是连接人...<a class="showmore" href="#">展开</a></p>
+    <p class="more" style="display:none;">2010年3月4日，美团网（www.meituan.com）正式上线，是国内第一家团购网站，最大的电影O2O平台、最大的酒店团购分销平台、第二大酒店在线分销平台、成长最快的外卖多更好更便宜的吃喝玩乐我们的使命是连接人com）正式上线，是国内第一家团购网站，最大的电影O2O平台、最大的酒店团购分销平台、第二大酒店在线分销平台、成长最快的外卖多更好更便宜的吃喝玩乐我们的使命是连接人<a class="showless" href="#">收起</a></p>
   </div>
 
   <div class="filter">
@@ -67,3 +68,24 @@
 
   </ul>
 </div>
+<script type="text/javascript" src="/lib/sea.js"></script>
+<script type="text/javascript" src="/src/common/g.js"></script>
+<script>
+seajs.use('zepto', function(){
+    var $description = $('#description'),
+        $showMore = $('.showmore'),
+        $showless = $('.showless');
+    $showMore.on('tap click', function(e){
+      e.preventDefault();
+      $description.find('.more').show();
+      $description.find('.less').hide();
+    });
+    $showless.on('tap click', function(e){
+      e.preventDefault();
+      $description.find('.less').show();
+      $description.find('.more').hide();
+    });
+});
+</script>
+</body>
+</html>

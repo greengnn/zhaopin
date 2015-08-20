@@ -11,7 +11,7 @@ body {
   display:-webkit-box;
   display:box;
   color: #333;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
 }
 .company .col-1,
 .company .col-2 {
@@ -54,22 +54,25 @@ body {
   background: #fff;
 }
 .description h2 {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   padding: 0 0 16px;
 }
 .description h3 {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   padding: 16px 0;
 }
 .description p {
   line-height: 1.6;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
 }
 
+.taglist {
+  margin-bottom: 10px;
+}
 .taglist li {
   float: left;
-  padding: 8px 15px;
-  font-size: 1.2rem;
+  padding: 8px 13px;
+  font-size: 1.3rem;
   margin-right: 5px;
   margin-bottom: 5px;
 }
@@ -152,7 +155,7 @@ body {
   height: 20px;
   text-align: center;
   line-height: 20px;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   border-radius:20px;
   color: #fff;
   background: #54d091;
@@ -173,13 +176,13 @@ body {
   line-height: 1.6;
 }
 .question p {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   line-height: 1.6;
   margin-bottom: 6px;
 }
 .question .status {
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
 }
 .question .status em {
   color: #fadb71;
@@ -212,7 +215,7 @@ body {
   background: #1fa662;
   padding: 10px;
   color: rgba(255,255,255,.7);
-  font-size: 1.2rem;
+  font-size: 1.3rem;
 }
 .question .author .bd .dur {
   position: absolute;
@@ -268,7 +271,8 @@ body {
 .related .hd {
   height: 34px;
   line-height: 34px;
-  border-bottom: 1px #dadada solid;
+  font-size: 1.4rem;
+  border-bottom: 1px #ececec solid;
 }
 .related .hd .t {
   float: left;
@@ -280,7 +284,7 @@ body {
 .related li {
   height: 40px;
   line-height: 40px;
-  border-bottom: 1px #dadada solid;
+  border-bottom: 1px #ececec solid;
 }
 .related li:last-child {
   border-bottom: 0;

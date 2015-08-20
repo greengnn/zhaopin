@@ -25,7 +25,7 @@
   background: #fff;
   border:1px #d5d5d5 solid;
   border-radius: 3px;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   text-align: center;
   color: #999;
 }
@@ -75,7 +75,7 @@
   padding: 7px 15px 7px 0;
 }
 .category .bd ul {
-  line-height: 1.5;
+  line-height: 1.6;
   font-size: 1.4rem;
 }
 .category .bd li {
