@@ -2,7 +2,8 @@ seajs.config({
   // 别名配置
   alias: {
     'zepto': 'lib/zepto.js',
-    'gmu': 'lib/gmu'
+    'gmu': 'lib/gmu.js',
+    'validate': 'gallery/validate/validate.js'
   },
   // 调试模式
   debug: true,

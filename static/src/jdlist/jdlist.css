@@ -49,9 +49,10 @@ body {
   line-height: 1.7;
 }
 .filter-bar .dropmenu .content li {
+  float: left;
+  margin-right: 15px;
   padding: 0 3px;
-  line-height: 19px;
-  display: inline-block;
+  line-height: 2;
   border-radius: 3px;
 }
 .filter-bar .dropmenu .content li.active {

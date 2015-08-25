@@ -15,7 +15,7 @@
   </div>
 
   <div class="form">
-    <form class="form" name="login">
+    <form class="form" name="reg">
       <div class="form-item row form-item-phone">
         <span class="col-1">
           <input name="account" placeholder="请输入手机号">
@@ -31,7 +31,7 @@
         <input type="password" name="pwd" placeholder="请输入密码">
       </div>
       <div class="form-btn">
-        <button type="button" class="btn btn-primary btn-block">注册</button>
+        <button type="submit" class="btn btn-primary btn-block">注册</button>
       </div>
     </form>
   </div>
@@ -40,8 +40,8 @@
     没有帐号？立即<a href="#">注册</a>
   </div>
 </div>
-<div class="toast">
-  <table><tr><td>
+<div class="toast" id="error_box" style="display: none;">
+  <table><tr><td id="errcontent">
     请输入密码
   </td></tr></table></div>
 </div>
@@ -49,8 +49,41 @@
 <script type="text/javascript" src="/src/common/g.js"></script>
 <script>
 // 加载入口模块
-seajs.use(['zepto', 'gmu'], function(){
-  console.log(Zepto, gmu);
+seajs.use(['zepto', 'gmu', 'validate'], function(){
+
+    var validCallback = function(errors, e) {
+      e.preventDefault();
+      var SELECTOR_ERRORS = $('#error_box'),
+          SELECTOR_ERRORSSTR = $('#errcontent');
+
+      if (errors.length > 0) {
+          var errString = '';
+          for (var i = 0, errorLength = errors.length; i < errorLength; i++) {
+              errString += errors[i].message + '<br />';
+          }
+          SELECTOR_ERRORSSTR.html(errString);
+          SELECTOR_ERRORS.show();
+          console.log(errors);
+      } else {
+          SELECTOR_ERRORS.hide();
+          alert('提交成功');
+      }
+    },
+    validRules = [{
+      name: 'account',
+      display: '账户',
+      rules: 'required'
+    }, {
+      name: 'ccode',
+      display: '验证码',
+      rules: 'required'
+    }, {
+      name: 'pwd',
+      display: '密码',
+      rules: 'required'
+    }];
+
+    var validator = new FormValidator('reg', validRules, validCallback);
 });
 </script>
 </body>
