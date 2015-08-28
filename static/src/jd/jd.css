@@ -93,6 +93,9 @@ body {
   background: #f9fbe7;
 }
 
+.project {
+  padding-bottom: 10px;
+}
 .project img {
   float: left;
   width: 55px;
@@ -166,19 +169,26 @@ body {
 }
 .question {
   padding: 15px;
+  padding-bottom: 20px;
   color: #bef1d7;
   background: #3cb578;
 }
 .question h2 {
   color: #fff;
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   padding: 0 0 16px;
   line-height: 1.6;
+}
+.question .tit {
+  font-size: 1.8rem;
 }
 .question p {
   font-size: 1.3rem;
   line-height: 1.6;
   margin-bottom: 6px;
+}
+.question p a {
+  color: #bef1d7;
 }
 .question .status {
   color: #fff;
@@ -195,29 +205,33 @@ body {
   opacity: .6;
 }
 
-.question .author {
-  margin-top: 20px;
+.author {
+  padding: 15px;
+  padding-top: 20px;
+  color: #bef1d7;
+  background: #3cb578;
+  border-top: 1px #249354 dashed;
 }
-.question .author .hd {
+.author .hd {
   margin-bottom: 10px;
 }
-.question .author .face {
+.author .face {
   border-radius: 100%;
   width: 23px;
   vertical-align: middle;
 }
-.question .author span {
+.author span {
   display: inline-block;
   vertical-align: middle;
 }
-.question .author .bd {
+.author .bd {
   position: relative;
   background: #1fa662;
   padding: 10px;
   color: rgba(255,255,255,.7);
   font-size: 1.3rem;
 }
-.question .author .bd .dur {
+.author .bd .dur {
   position: absolute;
   left: 34px;
   top: -5px;

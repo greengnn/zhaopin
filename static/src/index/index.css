@@ -80,13 +80,15 @@
 }
 .category .bd li {
   display: inline-block;
-  padding: 3px;
-  line-height: 1.2;
+  padding: 3px 6px;
+  line-height: 1.4;
   margin-right: 8px;
+  margin-bottom: 5px;
 }
 .category .bd li a {
   color: #333;
 }
 .category .bd li.active {
   background: #ededed;
+  border-radius: 3px;
 }

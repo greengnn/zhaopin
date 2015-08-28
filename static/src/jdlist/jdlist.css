@@ -50,8 +50,8 @@ body {
 }
 .filter-bar .dropmenu .content li {
   float: left;
-  margin-right: 15px;
-  padding: 0 3px;
+  margin-right: 10px;
+  padding: 0 5px;
   line-height: 2;
   border-radius: 3px;
 }
