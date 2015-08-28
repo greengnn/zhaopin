@@ -11,6 +11,17 @@ seajs.config({
   base: '/'
 });
 
+seajs.use(['zepto'], function(){
+  $('.back__').on('click tap', function(e){
+    e.preventDefault();
+    window.history.back();
+  });
+
+  $('.home__').on('click tap', function(e){
+    e.preventDefault();
+    window.location.href = '/';
+  });
+});
 
 // var rem = (function (doc, win) {
 //   var docEl = doc.documentElement,
