@@ -198,6 +198,9 @@ a:hover {
   font-size: 1.6rem;
   padding-bottom: 5px;
 }
+.jd-item .hd h2 a {
+  color: #333;
+}
 .jd-item .hd h2 em {
   color: #ff6600;
 }
