@@ -55,6 +55,9 @@ body {
   line-height: 2;
   border-radius: 3px;
 }
+.filter-bar .dropmenu .content li a {
+  color: #666;
+}
 .filter-bar .dropmenu .content li.active {
   background: #e2e2e2;
 }
